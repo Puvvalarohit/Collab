@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Day Reminder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .reminder-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 320px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    #status {
+      margin-top: 15px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="reminder-container">
+    <h1>Day Reminder</h1>
+    <input type="text" id="reminderText" placeholder="Enter your reminder..." />
+    <input type="time" id="reminderTime" />
+    <button onclick="setReminder()">Set Reminder</button>
+    <p id="status"></p>
+  </div>
+
+  <script>
+    function setReminder() {
+      const text = document.getElementById('reminderText').value.trim();
+      const time = document.getElementById('reminderTime').value;
+      const status = document.getElementById('status');
+
+      if (!text || !time) {
+        alert('Please fill in both fields.');
+        return;
+      }
+
+      const now = new Date();
+      const [hour, minute] = time.split(':');
+      const reminderTime = new Date();
+      reminderTime.setHours(parseInt(hour), parseInt(minute), 0, 0);
+
+      if (reminderTime <= now) {
+        alert('Please select a future time.');
+        return;
+      }
+
+      const timeToWait = reminderTime - now;
+
+      setTimeout(() => {
+        alert("Reminder: " + text);
+      }, timeToWait);
+
+      status.textContent = `Reminder set for ${time}`;
+      document.getElementById('reminderText').value = '';
+      document.getElementById('reminderTime').value = '';
+    }
+  </script>
+</body>
+</html>
